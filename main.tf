@@ -1,11 +1,7 @@
-terraform {
-
-}
+terraform {}
 
 provider "aws" {
-	region = var.region
+  region = var.region
 }
 
-provider "azuread" {
-
-}
+provider "azuread" {}

@@ -40,5 +40,5 @@ data "template_file" "body" {
   template = file("patch-ad.json.tpl")
   vars = {
     replyurl = "https://${aws_cognito_user_pool_domain.kabuctl.domain}.auth.${var.region}.amazoncognito.com/saml2/idpresponse",
-    identifier = "urn:amazon:cognito:sp:${aws_cognito_user_pool.pool.id}"  }
+  identifier = "urn:amazon:cognito:sp:${aws_cognito_user_pool.pool.id}" }
 }
