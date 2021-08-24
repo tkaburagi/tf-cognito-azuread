@@ -1,5 +1,5 @@
 resource "azuread_application" "ad-app" {
-  display_name = "ad-app"
+  display_name = var.azuread_application_name
 }
 
 resource "azuread_service_principal" "ad-app-principal" {
@@ -10,21 +10,25 @@ resource "azuread_service_principal" "ad-app-principal" {
     "WindowsAzureActiveDirectoryGalleryApplicationNonPrimaryV1"
   ]
 
-//  provisioner "local-exec" {
-//    command = "sleep 120"
-//  }
+  provisioner "local-exec" {
+    command = "sleep 120"
+  }
 
   provisioner "local-exec" {
     command = "az ad sp update --id ${azuread_application.ad-app.application_id} --set preferredSingleSignOnMode='saml'"
   }
 
-//  provisioner "local-exec" {
-//    command = "sleep 120"
-//  }
-
 
   provisioner "local-exec" {
     command = "az rest --method PATCH --uri 'https://graph.microsoft.com/v1.0/applications/${azuread_application.ad-app.object_id}' --body '${data.template_file.body.rendered}'"
+  }
+
+  provisioner "local-exec" {
+    command = "az rest --method POST --uri 'https://graph.microsoft.com/beta/servicePrincipals/${azuread_service_principal.ad-app-principal.object_id}/addTokenSigningCertificate' --body '{\"endDateTime\":\"2024-01-25T00:00:00Z\"}'"
+  }
+
+  provisioner "local-exec" {
+    command = "curl -o federationmedata.xml https://login.microsoftonline.com/${var.tenant_id}/federationmetadata/2007-06/federationmetadata.xml?appid=${azuread_service_principal.ad-app-principal.application_id}"
   }
 
   depends_on = [
