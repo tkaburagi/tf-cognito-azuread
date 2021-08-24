@@ -24,7 +24,7 @@ resource "azuread_service_principal" "ad-app-principal" {
   }
 
   provisioner "local-exec" {
-    command = "az rest --method POST --uri 'https://graph.microsoft.com/beta/servicePrincipals/${azuread_service_principal.ad-app-principal.object_id}/addTokenSigningCertificate' --body '{\"endDateTime\":\"2024-01-25T00:00:00Z\"}'"
+    command = "az rest --method POST --uri 'https://graph.microsoft.com/beta/servicePrincipals/${azuread_service_principal.ad-app-principal.object_id}/addTokenSigningCertificate' --body '{\"endDateTime\":\"${var.cert_expire_time}\"}'"
   }
 
   provisioner "local-exec" {

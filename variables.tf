@@ -18,4 +18,8 @@ variable "azuread_application_name" {
     default = "ad-app"
 }
 
+variable "cert_expire_time" {
+    default = "2024-01-25T00:00:00Z"
+}
+
 variable "tenant_id" {}
