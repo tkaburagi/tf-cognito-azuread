@@ -16,7 +16,7 @@ export ARM_CLIENT_SECRET=
 ```
 
 ## API Permissions
-![](api-permissions.png)
+![](img/api-permissions.png)
 
 ## Defining vars
 ```shell script
