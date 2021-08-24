@@ -4,15 +4,15 @@ resource "aws_cognito_user_pool" "pool" {
 }
 
 resource "aws_cognito_user_pool_domain" "kabuctl" {
-  domain       = var.domain_name
+  domain       = var.domain
   user_pool_id = aws_cognito_user_pool.pool.id
 }
 
 resource "aws_cognito_user_pool_client" "client" {
-  name = var.aws_cognito_user_pool_client_name
+  name = var.cognito_user_pool_client_name
 
   user_pool_id         = aws_cognito_user_pool.pool.id
-  callback_urls        = ["http://localhost:8080"]
+  callback_urls        = var.cognito_callbackurls
   allowed_oauth_scopes = ["email", "openid", "aws.cognito.signin.user.admin"]
   allowed_oauth_flows  = ["code", "implicit"]
 }
